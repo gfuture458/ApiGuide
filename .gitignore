@@ -1,0 +1,6 @@
+guide-front/node_modules
+guide-front/node_modules/*
+guide-front/.idea
+guide-front/.idea/*
+.idea
+.idea/*
