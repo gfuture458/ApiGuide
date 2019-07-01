@@ -35,3 +35,10 @@
   flex-direction: column;
 }
 
+.el-row {
+  width: auto;
+  background-color: #B3C0D1;
+  margin: 10px;
+  height: 50px;
+  display: flex;
+}

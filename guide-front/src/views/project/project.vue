@@ -18,13 +18,11 @@
                   >
                 </el-option>
               </el-select>
-                <el-button type="primary" style="margin-left: 50px">查询</el-button>
+              <el-button type="primary" style="margin-left: 50px">查询</el-button>
+              <el-button type="primary" style="float: right; margin-right: 20px">新增项目</el-button>
             </el-form-item>
           </div>
         </el-form>
-         <!--<el-row style="margin: 30px;background-color: white;height: 40px">-->
-          <!--<el-button>新增项目</el-button>-->
-        <!--</el-row>-->
         <el-table style="width: auto; margin: 30px 30px 0;" border="true" :data="tableData">
           <el-table-column label="项目名称" prop="name"></el-table-column>
           <el-table-column label="域名" prop="host"></el-table-column>
@@ -34,7 +32,7 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                >编辑</el-button>
+                >查看</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -42,9 +40,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <!--<el-row style="margin: 10px 30px 30px;background-color: white">-->
-          <!--<el-button>添加项目</el-button>-->
-        <!--</el-row>-->
       </div>
     </el-main>
   </el-container>
@@ -73,11 +68,11 @@ export default {
 
 <style scoped>
   @import "../../assets/css/index.css";
-  .el-row {
-    width: auto;
-    background-color: #B3C0D1;
-    margin: 10px;
-    height: 50px;
-    display: flex;
-  }
+  /*.el-row {*/
+    /*width: auto;*/
+    /*background-color: #B3C0D1;*/
+    /*margin: 10px;*/
+    /*height: 50px;*/
+    /*display: flex;*/
+  /*}*/
 </style>
