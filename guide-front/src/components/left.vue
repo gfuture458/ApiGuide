@@ -16,8 +16,8 @@
             <i class="el-icon-menu"></i>
             <span>项目名称</span>
           </template>
-          <label v-for="item in target_json" :key="item">
-            <el-menu-item @click="mytest(item)">{{item}}</el-menu-item>
+          <label v-for="item in target_json" :key="item.Name">
+            <el-menu-item @click="mytest(item.Name)">{{item.Name}}</el-menu-item>
           </label>
         </el-submenu>
       </el-menu>
@@ -25,27 +25,44 @@
   </div>
 </template>
 <script>
-// import apis from '@/config/apis'
-// import request from '@/utils/request'
+import request from '../utils/request'
+import apis from '../config/apis'
+// return {
+//   target_json: []
+// }
 export default {
   data () {
     return {
-      target_json: [
-        '项目1',
-        '项目2',
-        '项目3'
-      ]
+      target_json: []
     }
+  },
+  mounted () {
+    this.get_projects()
   },
   methods: {
     open (key, keypath) {
       console.log(key, keypath)
+      this.$router.push('/project')
     },
     mytest (mystr) {
       console.log(mystr)
     },
     to_upload () {
       this.$router.push('/index')
+    },
+    get_projects: async function () {
+      let result = await request({
+        url: apis.project,
+        method: 'get'
+      })
+      console.log('project', result.data.code)
+      if (result.data.code === 200) {
+        this.target_json = result.data.data
+        console.log('base', result.data.data)
+      } else {
+        this.$message.error('错误的请求')
+        this.$router.push('/')
+      }
     }
   }
 }

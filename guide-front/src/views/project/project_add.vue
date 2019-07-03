@@ -37,7 +37,6 @@ export default {
 
   data: function () {
     var validatePro = (rule, value, callback) => {
-      console.log('ssss')
       if (!value) {
         return callback(new Error('项目名称不能为空'))
       }
@@ -83,7 +82,8 @@ export default {
         if (valid) {
           let data = {
             name: this.projectForm.name,
-            host: this.projectForm.host
+            host: this.projectForm.host,
+            user: this.$store.getters.getuser
           }
           let result = await request({
             url: apis.add_pro,
@@ -93,6 +93,8 @@ export default {
           if (result.data.code === 200) {
             this.$message(result.data.msg)
             this.$router.push('/project_info')
+          } else {
+            this.$message.error(result.data.msg)
           }
         }
       })

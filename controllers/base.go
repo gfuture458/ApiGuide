@@ -75,7 +75,7 @@ func (this *BaseController) jsonResult(out interface{}) {
 }
 
 func (this *BaseController) getClientAddr() string {
-	ip := this.Ctx.Request.RemoteAddr
+	ip := strings.Split(this.Ctx.Request.RemoteAddr, ":")[0]
 	return ip
 }
 

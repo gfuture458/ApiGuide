@@ -31,11 +31,11 @@ export default {
   components: {MyHeader, Left},
   data: function () {
     return {
-      target_json: [
-        '项目1',
-        '项目2',
-        '项目3'
-      ],
+      // target_json: [
+      //   '项目1',
+      //   '项目2',
+      //   '项目3'
+      // ],
       user_info: {
         username: '',
         email: '',
@@ -61,6 +61,7 @@ export default {
         this.user_info.username = response.Username
         this.user_info.email = response.Email
         this.user_info.age = response.Age
+        this.$store.dispatch('changeFun', response)
       } else {
         this.$router.push('/')
       }

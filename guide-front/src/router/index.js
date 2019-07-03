@@ -5,6 +5,7 @@ import register from '@/views/register'
 import index from '@/views/index/index'
 import project from '../views/project/project'
 import addProject from '../views/project/project_add'
+import projectInfo from '../views/project/projectinfo'
 
 Vue.use(Router)
 
@@ -32,8 +33,13 @@ export default new Router({
     },
     {
       path: '/addProject',
-      name: 'project',
+      name: 'addProject',
       component: addProject
+    },
+    {
+      path: '/project_info',
+      name: 'projectInfo',
+      component: projectInfo
     }
   ]
 })

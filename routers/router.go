@@ -19,7 +19,7 @@ func init() {
 			beego.NSRouter("/login", &controllers.UserController{}, "post:Login"),
 			beego.NSRouter("/get_user_detail", &controllers.UserController{}, "get:GetUserInfo"),
 		),
-		beego.NSNamespace("project",
+		beego.NSNamespace("/project",
 			beego.NSRouter("/get_all_project", &controllers.ProjectController{}, "get:GetAllPjc"),
 			beego.NSRouter("/add_project", &controllers.ProjectController{}, "post:AdPro"),
 		),

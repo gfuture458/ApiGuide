@@ -11,7 +11,7 @@ type User struct {
 	Password string    `orm:"column(password)" description:"密码"`
 	Login    time.Time `orm:column(latest_login);auto_now" description:"上次登陆时间"`
 	Profile
-	Project *Project `orm:"reverse(one)"`
+	Project []*Project `orm:"reverse(many)"`
 	BaseModel
 }
 

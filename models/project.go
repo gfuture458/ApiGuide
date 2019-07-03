@@ -8,7 +8,7 @@ type Project struct {
 	Id      int      `orm:"column(id);auto" description:"id"`
 	Name    string   `orm:"column(name);unique" description:"项目名称"`
 	Host    string   `orm:"column(host);" description:"项目域名"`
-	User    *User    `orm:"null;rel(one);on_delete(set_null)" description:"关联用户"`
+	User    *User    `orm:"null;rel(fk);on_delete(set_null)" description:"关联用户"`
 	Modular *Modular `orm:"reverse(one)"`
 	BaseModel
 }
@@ -36,7 +36,8 @@ func GetProjectByName(name string) (*Project, error) {
 // 获取所有项目
 func GetAllProject() ([]Project, error) {
 	var ProList []Project
-	_, err := orm.NewOrm().QueryTable(TableName("project")).Filter("IsActive", true).All(&ProList)
+	o := orm.NewOrm()
+	_, err := o.QueryTable(TableName("project")).Filter("IsActive", true).RelatedSel().All(&ProList)
 	if err != nil {
 		return nil, err
 	}
