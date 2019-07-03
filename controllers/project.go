@@ -33,7 +33,7 @@ func (pro *ProjectController) AdPro() {
 }
 
 func (pro *ProjectController) GetAllPjc() {
-	ProList, err := models.GetAllProject()
+	ProList, err := models.GetAllProject(pro.user.Id)
 	if err != nil {
 		pro.jsonResult(utils.FalseReturn(-1, "查询错误", err))
 	}

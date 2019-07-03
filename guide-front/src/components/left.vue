@@ -51,9 +51,13 @@ export default {
       this.$router.push('/index')
     },
     get_projects: async function () {
+      let data = {
+        id: this.$store.getters.getuser.Id
+      }
       let result = await request({
         url: apis.project,
-        method: 'get'
+        method: 'get',
+        data: data
       })
       console.log('project', result.data.code)
       if (result.data.code === 200) {

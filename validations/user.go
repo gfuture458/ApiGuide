@@ -32,3 +32,16 @@ func LoginCheck(u *models.User) []interface{} {
 	}
 	return errorList
 }
+
+// 验证userId
+func UserIdCheck(user *models.User) []interface{} {
+	var errorList []interface{}
+	vaild := validation.Validation{}
+	vaild.Required(user.Id, "id")
+	if vaild.HasErrors() {
+		for _, err := range vaild.Errors {
+			errorList = append(errorList, err)
+		}
+	}
+	return errorList
+}

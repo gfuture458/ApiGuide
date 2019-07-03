@@ -34,10 +34,10 @@ func GetProjectByName(name string) (*Project, error) {
 }
 
 // 获取所有项目
-func GetAllProject() ([]Project, error) {
+func GetAllProject(uid int) ([]Project, error) {
 	var ProList []Project
 	o := orm.NewOrm()
-	_, err := o.QueryTable(TableName("project")).Filter("IsActive", true).RelatedSel().All(&ProList)
+	_, err := o.QueryTable(TableName("project")).Filter("IsActive", true).Filter("User", uid).RelatedSel().All(&ProList)
 	if err != nil {
 		return nil, err
 	}
