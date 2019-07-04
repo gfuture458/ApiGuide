@@ -5,11 +5,11 @@ import (
 )
 
 type Project struct {
-	Id      int      `orm:"column(id);auto" description:"id"`
-	Name    string   `orm:"column(name);unique" description:"项目名称"`
-	Host    string   `orm:"column(host);" description:"项目域名"`
-	User    *User    `orm:"null;rel(fk);on_delete(set_null)" description:"关联用户"`
-	Modular *Modular `orm:"reverse(one)"`
+	Id      int        `orm:"column(id);auto" description:"id"`
+	Name    string     `orm:"column(name);unique" description:"项目名称"`
+	Host    string     `orm:"column(host);" description:"项目域名"`
+	User    *User      `orm:"null;rel(fk);on_delete(set_null)" description:"关联用户"`
+	Modular []*Modular `orm:"reverse(many)"`
 	BaseModel
 }
 

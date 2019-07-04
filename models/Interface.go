@@ -9,7 +9,7 @@ type Interface struct {
 	Example string   `orm:"column(example)" description:"示例"`
 	Type    string   `orm:"column(type)" description:"类型"`
 	Desc    string   `orm:"column(desc)" description:"描述"`
-	Modular *Modular `orm:"null;rel(one);on_delete(set_null)" description:"关联模块"`
+	Modular *Modular `orm:"null;rel(fk);on_delete(set_null)" description:"关联模块"`
 	BaseModel
 }
 

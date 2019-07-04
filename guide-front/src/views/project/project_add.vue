@@ -50,7 +50,7 @@ export default {
     }
     var validateHost = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请正确填写邮箱'))
+        callback(new Error('地址不能为空'))
       } else {
         if (value !== '') {
           let reg = /^(https?:\/\/)([0-9a-z.]+)(:[0-9]+)?([/0-9a-z.]+)?(\?[0-9a-z&=]+)?(#[0-9-a-z]+)?/i
@@ -92,8 +92,9 @@ export default {
           if (result.data.code === 200) {
             this.$message(result.data.msg)
             this.$router.push('/project_info')
-          } else {
+          } else if (result.data.code === 600) {
             this.$message.error(result.data.msg)
+            this.$router.push('/')
           }
         }
       })
