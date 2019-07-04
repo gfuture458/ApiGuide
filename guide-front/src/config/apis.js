@@ -5,7 +5,8 @@ const Apis = {
   user_msg: '/user/get_user_detail', // 用户详情
   project: '/project/get_all_project', // 获取所有项目
   add_pro: '/project/add_project', // 添加项目
-  project_info: '/project/info/' // 项目详情
+  project_info: '/project/info', // 项目详情
+  del_project: '/project/delete' // 删除项目
 }
 
 for (let key in Apis) {

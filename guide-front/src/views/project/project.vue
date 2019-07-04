@@ -40,6 +40,7 @@
               <el-button
                 size="mini"
                 type="danger"
+                @click="delTpis(scope.$index, scope.row)"
                 >删除</el-button>
             </template>
           </el-table-column>
@@ -75,16 +76,52 @@ export default {
         url: apis.project,
         method: 'get'
       })
-      console.log('project', result.data.code)
       if (result.data.code === 200) {
         this.tableData = result.data.data
         console.log(result.data.data)
-      } else {
-        this.$message.error('错误的请求')
       }
     },
     to_detail () {
       this.$router.push('/project_info')
+    },
+    async delete_project (index, obj) {
+      let data = {
+        id: obj.Id
+      }
+      let result = await request({
+        url: apis.del_project,
+        method: 'delete',
+        params: data
+      })
+      if (result.data.code === 200) {
+        console.log('delete success ')
+        this.tableData.splice(index, 1)
+      } else {
+        this.$message({
+          type: 'error',
+          message: '删除失败'
+        })
+      }
+    },
+    delTpis (index, row) {
+      this.$confirm('将永久删除该项目， 是否继续', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        console.log('tips')
+        this.delete_project(index, row)
+        this.$message({
+          type: 'success',
+          message: '删除成功'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        })
+      })
     }
   }
 }

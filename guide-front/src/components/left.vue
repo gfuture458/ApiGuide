@@ -63,8 +63,8 @@ export default {
       if (result.data.code === 200) {
         this.target_json = result.data.data
         console.log('base', result.data.data)
-      } else {
-        this.$message.error('错误的请求')
+      } else if (result.data.code === 600) {
+        this.$message.error('认证失败，请重新登录')
         this.$router.push('/')
       }
     }

@@ -22,6 +22,7 @@ func init() {
 		beego.NSNamespace("/project",
 			beego.NSRouter("/get_all_project", &controllers.ProjectController{}, "get:GetAllPjc"),
 			beego.NSRouter("/add_project", &controllers.ProjectController{}, "post:AdPro"),
+			beego.NSRouter("/delete", &controllers.ProjectController{}, "delete:DelPjt"),
 		),
 	)
 	beego.AddNamespace(ns)

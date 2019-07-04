@@ -10,7 +10,19 @@ func ProjectAddCheck(pro *models.Project) []interface{} {
 	valid := validation.Validation{}
 	valid.Required(pro.Name, "name")
 	valid.Required(pro.Host, "host")
-	valid.Required(pro.User, "user")
+	//valid.Required(pro.User, "user")
+	if valid.HasErrors() {
+		for _, err := range valid.Errors {
+			errorList = append(errorList, err)
+		}
+	}
+	return errorList
+}
+
+func CheckProjectId(pro *models.Project) []interface{} {
+	var errorList []interface{}
+	valid := validation.Validation{}
+	valid.Required(pro.Id, "id")
 	if valid.HasErrors() {
 		for _, err := range valid.Errors {
 			errorList = append(errorList, err)

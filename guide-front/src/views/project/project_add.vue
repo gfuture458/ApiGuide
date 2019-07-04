@@ -4,7 +4,7 @@
     <el-main>
       <Left></Left>
       <div class="right">
-        <el-page-header content="新增项目" style="padding: 20px;padding-bottom: 0"></el-page-header>
+        <el-page-header content="新增项目" style="padding: 20px 20px 0;" @back="back()"></el-page-header>
         <el-row>
           <span style="margin-left: 20px; align-items: center;display: flex">新增项目</span>
         </el-row>
@@ -82,8 +82,7 @@ export default {
         if (valid) {
           let data = {
             name: this.projectForm.name,
-            host: this.projectForm.host,
-            user: this.$store.getters.getuser
+            host: this.projectForm.host
           }
           let result = await request({
             url: apis.add_pro,
@@ -98,6 +97,9 @@ export default {
           }
         }
       })
+    },
+    back () {
+      this.$router.push('/project')
     }
   }
 }

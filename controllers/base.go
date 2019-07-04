@@ -51,6 +51,8 @@ func (this *BaseController) auth() {
 		this.jsonResult(utils.FalseReturn(600, "认证失败", ""))
 	}
 	this.user = reqUser
+	this.userId = reqUser.Id
+	this.userName = reqUser.Username
 }
 
 func (this *BaseController) getJson() map[string]interface{} {

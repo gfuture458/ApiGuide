@@ -27,9 +27,10 @@ service.interceptors.response.use(function (res) {
   if (res.data.token) {
     localStorage.setItem('token', 'basic ' + res.data.token)
   }
-  console.log(res.data.code)
   if (res.status !== 200 || res.data.code !== 200) {
     Toast(res.data.msg)
+  } else if (res.data.code === 600) {
+    localStorage.setItem('token', '')
   }
   return res
 },

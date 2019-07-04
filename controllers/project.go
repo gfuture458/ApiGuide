@@ -6,6 +6,7 @@ import (
 	"ApiGuide/validations"
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 type ProjectController struct {
@@ -24,6 +25,8 @@ func (pro *ProjectController) AdPro() {
 	if target != nil {
 		pro.jsonResult(utils.FalseReturn(-1, "项目已存在", ""))
 	}
+	project.User = pro.user
+	project.IsActive = true
 	_, err := models.AddProject(&project)
 	if err != nil {
 		pro.jsonResult(utils.FalseReturn(-1, "项目添加失败", err))
@@ -41,5 +44,12 @@ func (pro *ProjectController) GetAllPjc() {
 }
 
 func (pro *ProjectController) DelPjt() {
-
+	pid := pro.GetString("id")
+	//fmt.Println(reflect.TypeOf(pid))
+	delId, _ := strconv.Atoi(pid)
+	result := models.DeleteProject(delId)
+	if result {
+		pro.jsonResult(utils.TrueReturn("删除成功", ""))
+	}
+	pro.jsonResult(utils.FalseReturn(-1, "删除失败", ""))
 }
