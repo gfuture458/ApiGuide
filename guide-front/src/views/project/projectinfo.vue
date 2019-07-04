@@ -14,17 +14,22 @@
               <el-collapse-item :title="m.name" :name="index">
                 <el-table :border="true" :data="m.interface">
                   <el-table-column label="接口名称" prop="name"></el-table-column>
-                  <el-table-column label="路由" prop="path"></el-table-column>
+                  <el-table-column label="路由" prop="path" >
+                    <template slot-scope="{row}">
+                      <div v-if="!row.edit">{{row.path}}</div>
+                      <el-input v-else v-model="row.path"></el-input>
+                    </template>
+                  </el-table-column>
                   <el-table-column label="请求方式" prop="method"></el-table-column>
                   <el-table-column label="是否必填" prop="require"></el-table-column>
                   <el-table-column label="示例" prop="example"></el-table-column>
                   <el-table-column label="类型" prop="type"></el-table-column>
                   <el-table-column label="描述" prop="desc"></el-table-column>
-                  <el-table-column label="操作">
-                    <template slot-scope="scope">
+                  <el-table-column label="操作" width="200">
+                    <template slot-scope="{row}">
                       <el-button
                         size="mini"
-                        @click="to_detail()">修改</el-button>
+                        @click="updateRow(row)">修改</el-button>
                       <el-button
                         size="mini"
                         type="danger"
@@ -61,7 +66,8 @@ export default {
             method: 'get',
             require: 'true',
             example: '{id: 1}',
-            type: 'json',
+            type: 'object',
+            edit: false,
             desc: '获取用户详情'
           }]
         },
@@ -75,7 +81,7 @@ export default {
             method: 'get',
             require: 'true',
             example: '{id: 1}',
-            type: 'json',
+            type: 'object',
             desc: '获取用户详情'
           }]
         },
@@ -89,7 +95,7 @@ export default {
             method: 'get',
             require: 'true',
             example: '{id: 1}',
-            type: 'json',
+            type: 'object',
             desc: '获取用户详情'
           }]
         }
@@ -100,8 +106,11 @@ export default {
     back () {
       this.$router.push('/project')
     },
-    get_router (prefix, path) {
-      return prefix + path
+    updateRow (row) {
+      console.log('----')
+      console.log(this.modular)
+      row.edit = !row.edit
+      console.log(this.modular)
     }
   }
 }
