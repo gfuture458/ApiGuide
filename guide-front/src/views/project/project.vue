@@ -36,7 +36,7 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="to_detail()">详情</el-button>
+                @click="to_detail(scope.row)">详情</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -78,11 +78,12 @@ export default {
       })
       if (result.data.code === 200) {
         this.tableData = result.data.data
-        console.log(result.data.data)
       }
     },
-    to_detail () {
+    to_detail (pid) {
       this.$router.push('/project_info')
+      localStorage.setItem('pid', pid.Id)
+      this.$store.dispatch('changePidFun', pid)
     },
     async delete_project (index, obj) {
       let data = {

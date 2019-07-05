@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/dgrijalva/jwt-go"
+	"strconv"
 	"time"
 )
 
@@ -68,4 +69,9 @@ func FalseReturn(code int, msg string, data interface{}) map[string]interface{} 
 	target["msg"] = msg
 	target["data"] = data
 	return target
+}
+
+func F2i(f float64) int {
+	i, _ := strconv.Atoi(fmt.Sprintf("%1.0f", f))
+	return i
 }

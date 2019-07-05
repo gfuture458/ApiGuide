@@ -12,7 +12,6 @@ service.interceptors.request.use(function (config) {
     localStorage.setItem('token', '')
     config.headers.Authorization = ''
   } else {
-    console.log('token: ', localStorage.getItem('token'))
     config.headers.Authorization = localStorage.getItem('token')
   }
   return Promise.resolve(config)
@@ -23,7 +22,6 @@ function (error) {
 )
 
 service.interceptors.response.use(function (res) {
-  console.log(res.headers)
   if (res.data.token) {
     localStorage.setItem('token', 'basic ' + res.data.token)
   }

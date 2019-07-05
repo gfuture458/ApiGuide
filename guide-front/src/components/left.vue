@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     open (key, keypath) {
-      console.log(key, keypath)
       this.$router.push('/project')
     },
     mytest (mystr) {
@@ -59,10 +58,9 @@ export default {
         method: 'get',
         data: data
       })
-      console.log('project', result.data.code)
       if (result.data.code === 200) {
+        console.log(result.data.data)
         this.target_json = result.data.data
-        console.log('base', result.data.data)
       } else if (result.data.code === 600) {
         this.$message.error('认证失败，请重新登录')
         this.$router.push('/')

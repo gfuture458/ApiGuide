@@ -24,6 +24,14 @@ func init() {
 			beego.NSRouter("/add_project", &controllers.ProjectController{}, "post:AdPro"),
 			beego.NSRouter("/delete", &controllers.ProjectController{}, "delete:DelPjt"),
 		),
+		beego.NSNamespace("/modular",
+			beego.NSRouter("/get_all_modular", &controllers.ModularController{}, "get:GetAllModular"),
+			beego.NSRouter("/add_modular", &controllers.ModularController{}, "post:AddModular"),
+		),
+		beego.NSNamespace("/interface",
+			beego.NSRouter("/add_interface", &controllers.InterfaceController{}, "post:AddInterface"),
+			beego.NSRouter("/get_interface", &controllers.InterfaceController{}, "get:GetInterface"),
+		),
 	)
 	beego.AddNamespace(ns)
 }

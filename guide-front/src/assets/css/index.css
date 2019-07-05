@@ -11,6 +11,10 @@
 .left_menu, .el-col, .el-menu, .el-aside{
   height: 100%;
 }
+.el-menu {
+  position: fixed;
+  width: 20%;
+}
 .el-col {
   width: 100%;
 }
