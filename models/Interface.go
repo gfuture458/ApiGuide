@@ -1,7 +1,6 @@
 package models
 
 import (
-	"Api/models"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -24,15 +23,39 @@ func (obj *Interface) TableName() string {
 }
 
 func AddInterface(inter *Interface) (int64, error) {
-	return orm.NewOrm().Insert(inter)
+	o := orm.NewOrm()
+	o.Begin()
+	if num, err := orm.NewOrm().Insert(inter); err == nil {
+		err = o.Commit()
+		return num, err
+	} else {
+		err = o.Rollback()
+		return 0, err
+	}
 }
 
 func GetInterface(mid int) ([]*Interface, error) {
 	var interfaces []*Interface
-	modular := models.Modular{Id: mid}
+	modular := Modular{Id: mid}
 	_, err := orm.NewOrm().QueryTable(TableName("interface")).Filter("Modular", modular).All(&interfaces)
 	if err != nil {
 		return nil, err
 	}
 	return interfaces, err
+}
+
+func GetInterfaceByName(name string) bool {
+	o := orm.NewOrm()
+	Exist := o.QueryTable(TableName("interface")).Filter("name", name).Exist()
+	return Exist
+}
+
+func GetInterfaceById(iid int) bool {
+	o := orm.NewOrm()
+	Exist := o.QueryTable(TableName("interface")).Filter("id", iid).Exist()
+	return Exist
+}
+
+func UpdateInterface(inter *Interface, fields ...string) (int64, error) {
+	return orm.NewOrm().Update(inter, fields...)
 }

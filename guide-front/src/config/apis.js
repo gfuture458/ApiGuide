@@ -9,7 +9,8 @@ const Apis = {
   del_project: '/project/delete', // 删除项目
   get_all_modular: '/modular/get_all_modular', // 获取项目模块
   add_modular: '/modular/add_modular', // 添加模块
-  add_interface: '/interface/add_interface' // 添加模块
+  add_interface: '/interface/add_interface', // 添加模块
+  get_interfaces: '/interface/get_interface' // 添加模块
 }
 
 for (let key in Apis) {

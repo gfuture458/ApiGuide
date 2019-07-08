@@ -3,10 +3,10 @@
     <MyHeader></MyHeader>
     <el-main>
       <Left></Left>
-      <div style="height: 100%; width: 80%">
+      <div style="height: auto; width: 80%">
         <div class="right-top" style="height: 10%;">
           <div style="position: fixed; width: 100%;background-color: white;z-index: 999">
-            <el-page-header content="项目详情" style="padding: 20px 20px 0;" @back="back()"></el-page-header>
+            <el-page-header content="项目详情" style="padding: 10px;" @back="back()"></el-page-header>
             <el-row>
               <span style="margin-left: 20px; align-items: center;display: flex">模块列表</span>
             </el-row>
@@ -16,14 +16,14 @@
           </div>
         </div>
         <div class="right-bottom" style="height: 90%;overflow: auto; width: 100%">
-          <div style="overflow: auto; overflow-style: marquee-line; margin: 120px 20px 20px; width: 100%">
-            <div v-for="(m, index) in modular" :key="index" class="text item" style="padding-bottom: 10px">
-              <el-collapse accordion style="width: 90%">
-                <el-collapse-item :title="m.name" :name="index">
-                  <el-button style="margin-bottom: 10px; float: right;" @click="addInterface(m)">添加接口</el-button>
+          <div style="overflow: auto; overflow-style: marquee-line; padding: 120px 0 120px 20px">
+            <div v-for="(m, index) in modular" :key="index" class="text item">
+              <el-collapse :accordion="true" style="width: 90%" @change="getInter(m)" v-model="activeName">
+                <el-collapse-item :title="m.name" :name="index" >
+                  <el-button style="float: right;" @click="addInterface()">添加接口</el-button>
                   <el-input placeholder="输入接口名称" style="width: 180px"></el-input>
                   <!--<el-select placeholder="选择版本号"></el-select>-->
-                  <el-table :border="true" :data="m.interface">
+                  <el-table :border="true" :data="interfaces">
                     <el-table-column label="接口名称" prop="name">
                       <template slot-scope="{row}">
                         <div v-if="!row.edit">{{row.name}}</div>
@@ -73,10 +73,10 @@
                       </template>
                     </el-table-column>
                     <el-table-column label="操作" width="200">
-                      <template slot-scope="{row}">
+                      <template slot-scope="row">
                         <el-button
                           size="mini"
-                          @click="updateRow(row, m)">修改</el-button>
+                          @click="updateRow(row.row, m)">修改</el-button>
                         <el-button
                           size="mini"
                           type="danger"
@@ -143,9 +143,10 @@ export default {
       showDialog: false,
       newModular: {
         name: '',
-        prefix: '',
-        interface: []
+        prefix: ''
+        // interface: []
       },
+      interfaces: [],
       ModularRule: {
         name: [{
           validator: validateName, trigger: 'blur'
@@ -153,7 +154,8 @@ export default {
         prefix: [{
           validator: validatePrefix, trigger: 'blur'
         }]
-      }
+      },
+      activeName: '1'
     }
   },
   mounted () {
@@ -163,23 +165,33 @@ export default {
     back () {
       this.$router.push('/project')
     },
-    async updateRow (row, m) {
-      console.log(row, m)
+    updateRow: async function (row, m) {
       if (row.edit === true) {
-        m.interface = ''
-        let data = row
+        let data = JSON.parse(JSON.stringify(row))
         data.modular = m
-        console.log(data)
+        if (data.require === '否') {
+          data.require = false
+        } else {
+          data.require = true
+        }
+        console.log(data, '上传数据')
         let result = await request({
           url: apis.add_interface,
           method: 'post',
           data: data
         })
         console.log('result', result)
+        if (result.data.code === 200) {
+          row.id = result.data.data
+          console.log('返回id', result.data.data)
+          this.$message.success(result.data.msg)
+        } else {
+          this.$message.warning(result.data.msg)
+        }
       }
       row.edit = !row.edit
     },
-    addInterface (m) {
+    addInterface () {
       let newRow = {
         name: '',
         path: '',
@@ -190,7 +202,7 @@ export default {
         desc: '',
         edit: true
       }
-      m.interface.unshift(newRow)
+      this.interfaces.unshift(newRow)
     },
     showAddModular () {
       this.showDialog = true
@@ -215,7 +227,7 @@ export default {
             this.showDialog = false
             this.newModular.name = ''
             this.newModular.prefix = ''
-            this.newModular.interface = []
+            this.interfaces = []
             this.$message.success(result.data.msg)
           } else if (result.data.code === 600) {
             this.$message.error(result.data.msg)
@@ -238,7 +250,7 @@ export default {
         type: 'warning',
         center: true
       }).then(() => {
-        m.interface.splice(index, 1)
+        this.interfaces.splice(index, 1)
         console.log('tips')
         this.$message({
           type: 'success',
@@ -263,15 +275,29 @@ export default {
       })
       if (result.data.code === 200) {
         this.modular = result.data.data
-        for (let i in result.data.data) {
-          this.modular[i].interface = []
-        }
       } else if (result.data.code === 600) {
         this.$router.push('/')
       }
     },
-    getInter () {
-      console.log('----')
+    async getInter (m) {
+      let result = await request({
+        url: apis.get_interfaces,
+        method: 'get',
+        params: {'mid': m.id}
+      })
+      if (result.data.code === 200) {
+        for (let x = 0; x < result.data.data.length; x++) {
+          result.data.data[x].edit = false
+          if (result.data.data[x].require === false) {
+            result.data.data[x].require = '否'
+          } else {
+            result.data.data[x].require = '是'
+          }
+        }
+        this.interfaces = result.data.data
+      } else {
+        this.$router.push('/')
+      }
     }
   }
 }
